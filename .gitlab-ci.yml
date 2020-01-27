@@ -1,3 +1,7 @@
+image: docker:latest
+services:
+  - docker:dind
+
 include:
   - template: Code-Quality.gitlab-ci.yml
 
