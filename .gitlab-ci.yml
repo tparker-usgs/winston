@@ -17,7 +17,7 @@ code_quality:
     - ls
     - echo $PWD
     - docker run
-        --env SOURCE_CODE="${PWD}/src/main/java"
+        --env SOURCE_CODE="/code/src/main/java"
         --volume "$PWD":/code
         --volume /var/run/docker.sock:/var/run/docker.sock
         "registry.gitlab.com/gitlab-org/security-products/codequality:$SP_VERSION" /code
