@@ -141,6 +141,7 @@ public class WWS {
   protected final int dbConnections;
   private final InetAddress serverIp;
   private final int serverPort;
+  private final boolean keepalive;
   private NioEventLoopGroup group;
   private final ConnectionStatistics connectionStatistics;
 
@@ -181,6 +182,9 @@ public class WWS {
       LOGGER.info("config: wws.port={}.", serverPort);
     }
 
+    keepalive = StringUtils.stringToBoolean(configFile.getString("wws.port"), true);
+    LOGGER.info("config: wws.keepalive={}.", keepalive  );
+
     dbConnections =
         StringUtils.stringToInt(configFile.getString("wws.dbConnections"), DEFAULT_DB_CONNECTIONS);
     LOGGER.info("config: wws.dbConnections={}.", dbConnections);
@@ -210,7 +214,7 @@ public class WWS {
     final ServerBootstrap b = new ServerBootstrap();
     b.group(group).channel(NioServerSocketChannel.class)
         .localAddress(new InetSocketAddress(serverIp, serverPort))
-        .option(ChannelOption.SO_KEEPALIVE, true)
+        .childOption(ChannelOption.SO_KEEPALIVE, keepalive)
         .childHandler(new ChannelInitializer<SocketChannel>() {
           @Override
           public void initChannel(SocketChannel ch) throws Exception {
