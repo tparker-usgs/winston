@@ -50,6 +50,7 @@ public class WinstonDatabase {
   public final String databasePrefix;
   public final String tableEngine;
   public final long maxDays;
+  public final String characterSet = " CHARACTER SET utf8";
 
   private final PreparedStatementCache preparedStatements;
 
@@ -205,44 +206,44 @@ public class WinstonDatabase {
       getStatement().execute("CREATE TABLE instruments (iid INT PRIMARY KEY AUTO_INCREMENT,"
           + "name VARCHAR(250) UNIQUE, description VARCHAR(255), "
           + "lon DOUBLE DEFAULT -999, lat DOUBLE DEFAULT -999, "
-          + "height DOUBLE DEFAULT -999, timezone VARCHAR(128)) " + tableEngine);
+          + "height DOUBLE DEFAULT -999, timezone VARCHAR(128)) " + tableEngine + characterSet);
 
       getStatement().execute("CREATE TABLE channels (sid INT PRIMARY KEY AUTO_INCREMENT,"
           + "iid INT, code VARCHAR(50), st DOUBLE, et DOUBLE,"
           + " alias VARCHAR(255), unit VARCHAR(255), linearA DOUBLE DEFAULT 1E300, "
           + " linearB DOUBLE DEFAULT 1E300, "
           + " UNIQUE KEY (code) "
-          + " ) " + tableEngine);
+          + " ) " + tableEngine + characterSet);
 
       getStatement().execute("CREATE TABLE version (" + "schemaversion VARCHAR(10), "
-          + "installtime DATETIME) " + tableEngine);
+          + "installtime DATETIME) " + tableEngine + characterSet);
 
       getStatement()
           .execute("INSERT INTO version VALUES ('" + CURRENT_SCHEMA_VERSION + "', NOW())");
 
       getStatement().execute("CREATE TABLE grouplinks (glid INT PRIMARY KEY AUTO_INCREMENT, "
-          + "sid INT, nid INT) " + tableEngine);
+          + "sid INT, nid INT) " + tableEngine + characterSet);
 
       getStatement().execute("CREATE TABLE groupnodes (nid INT PRIMARY KEY AUTO_INCREMENT, "
-          + "parent INT DEFAULT 0, " + "name CHAR(255), " + "open BOOL DEFAULT 0) " + tableEngine);
+          + "parent INT DEFAULT 0, " + "name CHAR(255), " + "open BOOL DEFAULT 0) " + tableEngine + characterSet);
 
       getStatement().execute("CREATE TABLE channelmetadata (sid INT, name VARCHAR(249),"
-          + " value TEXT, PRIMARY KEY (sid, name)) " + tableEngine);
+          + " value TEXT, PRIMARY KEY (sid, name)) " + tableEngine + characterSet);
 
       getStatement()
           .execute("CREATE TABLE instrumentmetadata (imid INT PRIMARY KEY AUTO_INCREMENT, "
-              + "iid INT, " + "name VARCHAR(255), " + "value TEXT) " + tableEngine);
+              + "iid INT, " + "name VARCHAR(255), " + "value TEXT) " + tableEngine + characterSet);
 
       getStatement().execute("CREATE TABLE supp_data (sdid INT NOT NULL AUTO_INCREMENT, "
           + "st DOUBLE NOT NULL, et DOUBLE, sdtypeid INT NOT NULL, "
-          + "sd_short VARCHAR(90) NOT NULL, sd TEXT NOT NULL, PRIMARY KEY (sdid)) " + tableEngine);
+          + "sd_short VARCHAR(90) NOT NULL, sd TEXT NOT NULL, PRIMARY KEY (sdid)) " + tableEngine + characterSet);
 
       getStatement().execute("CREATE TABLE supp_data_type (sdtypeid INT NOT NULL AUTO_INCREMENT, "
           + "supp_data_type VARCHAR(20), supp_color VARCHAR(6) NOT NULL, draw_line TINYINT, PRIMARY KEY (sdtypeid), UNIQUE KEY (supp_data_type) ) "
-          + tableEngine);
+          + tableEngine + characterSet);
 
       getStatement().execute("CREATE TABLE supp_data_xref ( sdid INT NOT NULL, cid INT NOT NULL, "
-          + "UNIQUE KEY (sdid,cid) ) " + tableEngine);
+          + "UNIQUE KEY (sdid,cid) ) " + tableEngine + characterSet);
     } catch (final Exception e) {
       LOGGER.error("Could not create tables in WWS database.  Are permissions set properly? ({})",
           e);
