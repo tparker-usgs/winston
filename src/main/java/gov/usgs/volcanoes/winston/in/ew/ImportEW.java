@@ -316,7 +316,7 @@ public class ImportEW extends Thread {
       fatalError("winston.url is missing from config file.");
     LOGGER.info("config: winston.url=" + winstonURL);
 
-    final String winstonTableEngine = config.getString("winston.tableEngine");
+    final String winstonTableEngine = StringUtils.stringToString(config.getString("winston.tableEngine"), DEFAULT_TABLE_ENGINE);
     if (winstonTableEngine != null)
       LOGGER.info("config: winston.tableEngine=" + winstonTableEngine);
 

@@ -64,7 +64,7 @@ public class WinstonDatabase {
 
   public WinstonDatabase(final String dbDriver, final String dbURL, final String databasePrefix,
       final String tableEngine, final int cacheCap) {
-    this(dbDriver, dbURL, databasePrefix, null, cacheCap, MAX_DAYS_UNLIMITED);
+    this(dbDriver, dbURL, databasePrefix, tableEngine, cacheCap, MAX_DAYS_UNLIMITED);
   }
 
   public WinstonDatabase(final String dbDriver, final String dbURL, final String databasePrefix,
