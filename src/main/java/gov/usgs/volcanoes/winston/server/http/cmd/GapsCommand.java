@@ -158,7 +158,7 @@ public final class GapsCommand extends HttpBaseCommand {
       }
 
       startTimeS = dateF.format(J2kSec.asEpoch(startTime));
-      endTimeE = dateF.format(J2kSec.asEpoch(startTime));
+      endTimeE = dateF.format(J2kSec.asEpoch(endTime));
       totalTime = endTime - startTime;
 
       if (writeComputer == 1) {
