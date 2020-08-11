@@ -123,7 +123,7 @@ public final class RsamCommand extends HttpBaseCommand {
 
       if (rsamData == null)
         throw new UtilException("No RSAM data for " + scnl + " " + startTime + "->" + endTime);
-      
+
       if (rsamData.rows() > 0) {
         rsamData.adjustTime(timeZoneOffset);
 
@@ -173,7 +173,7 @@ public final class RsamCommand extends HttpBaseCommand {
       errorString.append("Error: could not parse start time (t1). Should be ")
           .append(HttpConstants.INPUT_DATE_FORMAT).append(" or -HH.M<br>");
 
-    timeZoneOffset = timeZone.getOffset(J2kSec.asEpoch(endTime));
+    timeZoneOffset = timeZone.getOffset(J2kSec.asEpoch(endTime)) / 1000;
 
     width = StringUtils.stringToInt(arguments.get("w"), HttpConstants.RSAM_WIDTH);
     height = StringUtils.stringToInt(arguments.get("h"), HttpConstants.RSAM_HEIGHT);
