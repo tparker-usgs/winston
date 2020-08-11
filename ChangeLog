@@ -1,3 +1,10 @@
+Changes in version 1.3.14
+------------------------
+- HTTP RSAM Timezome fix
+- HTTP gaps command fix
+- fix MySQL default table handling. Again.
+- fix MySQL default character set
+
 Changes in version 1.3.0
 ------------------------
 - WWSClient has been moved out of the server to its own distribution.
