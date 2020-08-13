@@ -190,7 +190,9 @@ public final class GapsCommand extends HttpBaseCommand {
       gap[1] = J2kSec.asEpoch(gap[1]);
     }
     root.put("gaps", gaps);
-
+    
+    double averageGap = (gaps.size() > 0) ? totalGap/gaps.size() : 0;
+    root.put("averageGap", averageGap);
     try {
       HttpTemplateConfiguration cfg = HttpTemplateConfiguration.getInstance();
       Template template = cfg.getTemplate("www/gaps.ftl");
