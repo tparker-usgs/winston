@@ -54,7 +54,7 @@
 						</TR>
 						<TR>
 							<TD>Average Gap Length:</TD>
-							<TD>${totalGap / gaps?size} seconds</TD>
+							<TD>${averageGap} seconds</TD>
 						</TR>
 						<TR>
 							<TD>Data percentage:</TD>
