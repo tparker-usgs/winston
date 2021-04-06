@@ -26,8 +26,12 @@ import gov.usgs.volcanoes.core.util.UtilException;
 import gov.usgs.volcanoes.winston.server.BaseCommand;
 import gov.usgs.volcanoes.winston.server.MalformedCommandException;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.DefaultHttpResponse;
 import io.netty.handler.codec.http.FullHttpRequest;
+import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpMethod;
+import io.netty.handler.codec.http.HttpResponse;
+import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.QueryStringDecoder;
 
 /**
@@ -63,7 +67,25 @@ public abstract class HttpBaseCommand extends BaseCommand implements HttpCommand
       throws MalformedCommandException, UtilException {
     InetSocketAddress remoteAddr = (InetSocketAddress) ctx.channel().remoteAddress();
     LOGGER.debug("{} asks {}", remoteAddr.getAddress(), request.getUri());
-    doCommand(ctx, request);
+    try {
+      doCommand(ctx, request);
+    } catch (java.lang.OutOfMemoryError e) {
+      HttpResponse response =
+          new DefaultHttpResponse(request.getProtocolVersion(), HttpResponseStatus.SERVICE_UNAVAILABLE);
+      response.headers().set(HttpHeaders.Names.CONTENT_TYPE, "text/html; charset=UTF-8");
+
+      String message = "Caught OutOfMemoryError";
+      boolean keepAlive = HttpHeaders.isKeepAlive(request);
+
+      if (keepAlive) {
+        response.headers().set(HttpHeaders.Names.CONTENT_LENGTH, message.length());
+        response.headers().set(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
+      }
+      ctx.writeAndFlush(message);
+
+      LOGGER.error("Caught OutOfMemoryError fulfilling ({} asks {})", remoteAddr.getAddress(), request.getUri());
+    }
+
   }
 
   protected Map<String, List<String>> getParams(FullHttpRequest request)

@@ -46,7 +46,12 @@ abstract public class WwsBaseCommand extends BaseCommand implements WwsCommand {
       throws MalformedCommandException, UtilException {
     InetSocketAddress remoteAddr = (InetSocketAddress) ctx.channel().remoteAddress();
     LOGGER.info("{} asks {}", remoteAddr.getAddress(), prettyRequest(req));
-    doCommand(ctx, req);
+    try {
+      doCommand(ctx, req);
+    } catch (java.lang.OutOfMemoryError e) {
+      ctx.writeAndFlush("FU\n");    
+      LOGGER.error("Caught OutOfMemoryError fulfilling ({} asks {})", remoteAddr.getAddress(), prettyRequest(req));
+    }
   }
 
   protected static DecimalFormat getDecimalFormat() throws UtilException {
