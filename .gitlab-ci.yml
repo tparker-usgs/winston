@@ -39,7 +39,7 @@ build:vulcan4:
   only:
     - tags
   script:
-    - mvn MAVEN_CLI_OPTS -DinstallAtEnd=true -DdeployAtEnd=true deploy
+    - mvn $MAVEN_CLI_OPTS -DinstallAtEnd=true -DdeployAtEnd=true deploy
 
 docker:trigger_build:
   image: curlimages/curl
