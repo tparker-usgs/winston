@@ -38,6 +38,7 @@ build:vulcan4:
   stage: build
   only:
     - tags
+    - master
   script:
     - mvn $MAVEN_CLI_OPTS -DinstallAtEnd=true -DdeployAtEnd=true deploy
 
@@ -46,6 +47,7 @@ docker:trigger_build:
   stage: docker
   only:
     - tags
+    - master
   before_script:
     - echo skipping before script
   script:
