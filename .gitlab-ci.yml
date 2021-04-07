@@ -50,6 +50,7 @@ docker:trigger_build:
     - echo skipping before script
   script:
     - >-
+      curl
       -X POST
       --form token=${TRIGGER_TOKEN}
       --form ref=master
