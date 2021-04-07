@@ -18,7 +18,7 @@ cache:
 stages:
   - test
   - build
-  - deploy
+  - docker
 
 before_script:
   - which ssh-agent || ( apt-get install -qq openssh-client )
