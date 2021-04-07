@@ -46,6 +46,8 @@ docker:trigger_build:
   stage: docker
   only:
     - tags
+  before_script:
+    - echo skipping before script
   script:
     - >-
       -X POST
