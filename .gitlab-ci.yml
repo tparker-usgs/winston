@@ -55,4 +55,4 @@ docker:trigger_build:
       --form token=${TRIGGER_TOKEN}
       --form ref=master
       --form variables[WINSTON_VERSION]=$CI_COMMIT_TAG
-      https://code.chs.usgs.gov/api/v4/projects/6817/trigger/pipeline
+      https://code.chs.usgs.gov/api/v4/projects/4438/trigger/pipeline
