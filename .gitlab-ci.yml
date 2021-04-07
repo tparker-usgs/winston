@@ -1,12 +1,12 @@
 ---
-variables:
-  MAVEN_OPTS: >-
-    -Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository 
-    -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN 
-    -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
-
-  MAVEN_CLI_OPTS: >-
-    --batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true
+#variables:
+#  MAVEN_OPTS: >-
+#    -Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository 
+#    -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN 
+#    -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
+#
+#  MAVEN_CLI_OPTS: >-
+#    --batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -20,6 +20,13 @@ build-vulcan4:
   image: maven:3.3-jdk-8
   stage: build
   script:
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+    - echo -e "\tUser gitlab\n\n" >> ~/.ssh/config
     - pwd
     - ls
-    - 'mvn $MAVEN_CLI_OPTS verify'
+    - 'mvn deploy'
