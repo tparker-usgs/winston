@@ -82,12 +82,8 @@
 		<repository>
 			<id>volcanoes.web</id>
 			<name>Volcanoes website</name>
-			<url>scpexe://vulcan4.wr.usgs.gov/webdata/volcanoes.usgs.gov/htdocs/software/maven2</url>
+			<url>scpexe://vulcan4.wr.usgs.gov/webdata/volcanoes.usgs.gov/htdocs/software/winston/bin</url>
 		</repository>
-		<site>
-			<id>github.pages</id>
-			<url>scm:git:https://git@github.com/usgs/winston.git</url>
-		</site>
 	</distributionManagement>
 
 
